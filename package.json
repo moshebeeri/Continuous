@@ -1,0 +1,24 @@
+{
+  "name": "continuousdependency",
+  "version": "1.0.0",
+  "description": "automate dependency management to the level of continuous dependency management",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moshebeeri/ContinuousDependency.git"
+  },
+  "keywords": [
+    "dependency",
+    "management",
+    "packege.json"
+  ],
+  "author": "Moshe Beeri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/moshebeeri/ContinuousDependency/issues"
+  },
+  "homepage": "https://github.com/moshebeeri/ContinuousDependency#readme"
+}

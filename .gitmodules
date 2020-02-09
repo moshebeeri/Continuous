@@ -1,0 +1,6 @@
+[submodule "npm-check-updates"]
+	path = npm-check-updates
+	url = git@github.com:tjunnone/npm-check-updates.git
+[submodule "npm-check"]
+	path = npm-check
+	url = git@github.com:dylang/npm-check.git
