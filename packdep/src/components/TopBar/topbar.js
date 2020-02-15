@@ -36,7 +36,7 @@ const TopBar = () => {
             PACKDEP - continous dependency
           </Typography>
           <Typography className={classes.login}>
-            <IconButton onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {console.log('login clicked')}} 
+            <IconButton onClick={(event) => {console.log('login clicked')}} 
                         edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
               <GitHubIcon/>
             </IconButton>
