@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 const TopBar = () => {
   const classes = useStyles();
-  const githubLogin = () => {}
+  //const githubLogin = () => {}
   
   return (
     <div className={classes.root}>
