@@ -7,5 +7,5 @@
   messagingSenderId: "955861074551",
   appId: "1:955861074551:web:dd9758154f29dd6086bc72",
   measurementId: "G-2YCREQ8Z4M"
-};
-export default firebaseConfig;
+}
+export default firebaseConfig

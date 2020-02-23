@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const Project = () => {
 
@@ -8,4 +8,4 @@ const Project = () => {
 
 }
 
-export default Project;
+export default Project

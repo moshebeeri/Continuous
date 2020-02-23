@@ -1,9 +1,9 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import 'typeface-roboto';
-import TopBar from './components/TopBar/topbar';
-import Project from './components/Project/project';
+import React from 'react'
+import logo from './logo.svg'
+import './App.css'
+import 'typeface-roboto'
+import TopBar from './components/TopBar/topbar'
+import Project from './components/Project/project'
 
 const App = () => {
   return (
@@ -25,7 +25,7 @@ const App = () => {
         </a>
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

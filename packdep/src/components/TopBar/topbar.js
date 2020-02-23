@@ -1,8 +1,9 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Typography, IconButton}  from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import GitHubIcon from '@material-ui/icons/GitHub';
+import React, { useState, useContext } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import { AppBar, Toolbar, Typography, IconButton}  from '@material-ui/core'
+import MenuIcon from '@material-ui/icons/Menu'
+import GitHubIcon from '@material-ui/icons/GitHub'
+import firebase from 'firebase'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,14 +20,35 @@ const useStyles = makeStyles(theme => ({
   toolbar: {backgroundColor:'midnightblue'},
   login:{verticalAlign: 'middle', marginTop: 'none'},
   loginText: {fontSize: '60%', marginRight: '10px'}
-}));
+}))
 
 const TopBar = () => {
-  const classes = useStyles();
-  //const githubLogin = () => {}
+  const classes = useStyles()
+  //see https://blog.logrocket.com/use-hooks-and-context-not-react-and-redux/
+
+    const githubLogin = (event) => {
+      console.log('login clicked')
+      const provider = new firebase.auth.GithubAuthProvider()
+      firebase.auth().signInWithPopup(provider).then(function(result) {
+      // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+      var token = result.credential.accessToken
+      // The signed-in user info.
+      var user = result.user
+      // ...
+    }).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code
+      var errorMessage = error.message
+      // The email of the user's account used.
+      var email = error.email
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential
+      // ...
+    })
+      }
   
   return (
-    <div className={classes.root}>
+      <div className={classes.root}>
       <AppBar position="static">
         <Toolbar className={classes.toolbar}>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
@@ -36,7 +58,7 @@ const TopBar = () => {
             PACKDEP - continous dependency
           </Typography>
           <Typography className={classes.login}>
-            <IconButton onClick={(event) => {console.log('login clicked')}} 
+            <IconButton onClick={githubLogin} 
                         edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
               <GitHubIcon/>
             </IconButton>
@@ -46,7 +68,7 @@ const TopBar = () => {
         </Toolbar>
       </AppBar>
     </div>
-  );
+  )
 }
 
-export default TopBar;
+export default TopBar
