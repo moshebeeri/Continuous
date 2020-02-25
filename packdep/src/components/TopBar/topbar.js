@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { AppBar, Toolbar, Typography, IconButton}  from '@material-ui/core'
+import { AppBar, Toolbar, Typography, IconButton, Button}  from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import firebase from 'firebase'
@@ -19,10 +19,11 @@ const useStyles = makeStyles(theme => ({
   },
   toolbar: {backgroundColor:'midnightblue'},
   login:{verticalAlign: 'middle', marginTop: 'none'},
-  loginText: {fontSize: '60%', marginRight: '10px'}
+  loginText: {fontSize: '80%', marginRight: '10px'}
 }))
 
 const TopBar = () => {
+  const [user, setUser] = useState(null);
   const classes = useStyles()
   //see https://blog.logrocket.com/use-hooks-and-context-not-react-and-redux/
 
@@ -34,6 +35,7 @@ const TopBar = () => {
       var token = result.credential.accessToken
       // The signed-in user info.
       var user = result.user
+      setUser(user)
       // ...
     }).catch(function(error) {
       // Handle Errors here.
@@ -54,9 +56,24 @@ const TopBar = () => {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
+          {
+            user? 
+             <Typography variant="5" style={{textTransform: "capitalize"}}>
+              Hello {user.displayName}
+            </Typography> : null
+          }
           <Typography variant="h6" className={classes.title}>
             PACKDEP - continous dependency
           </Typography>
+          {user?
+          <Typography className={classes.login}>
+            <IconButton onClick={githubLogin} 
+                        edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+              <GitHubIcon/>
+            </IconButton>
+           <Typography className={classes.loginText}>Logout GitHub</Typography>
+          </Typography>
+          : 
           <Typography className={classes.login}>
             <IconButton onClick={githubLogin} 
                         edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
@@ -64,7 +81,7 @@ const TopBar = () => {
             </IconButton>
             <Typography className={classes.loginText}>Login With GitHub</Typography>
           </Typography>
-          
+        } 
         </Toolbar>
       </AppBar>
     </div>
