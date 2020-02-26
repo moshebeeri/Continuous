@@ -1,6 +1,6 @@
 import React from 'react'
-// import { BrowserRouter as Router } from 'react-router-dom'
-//import Navigation from '../Navigation'
+import { BrowserRouter as Router } from 'react-router-dom'
+import Navigation from '../Navigation'
 import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
@@ -12,15 +12,18 @@ import createSagaMiddleware from 'redux-saga'
 import rootReducer from './redux/reducers/rootReducer'
 const sagaMiddleware = createSagaMiddleware()
 const store = createStore(rootReducer,   applyMiddleware(sagaMiddleware))
+
+const AppContext = React.createContext({});
+
 /***
  * For firebase setup see:
  * https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#react-application-setup-create-react-app
  */
 ReactDOM.render(
   <Provider store={store}>
-    <FirebaseContext.Provider value={new Firebase()}>
+    <AppContext.Provider value={{firebase: new Firebase()}}>
       <App />
-    </FirebaseContext.Provider>
+    </AppContext.Provider>
   </Provider>,
   document.getElementById('root'))
 

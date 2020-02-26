@@ -5,6 +5,8 @@ import MenuIcon from '@material-ui/icons/Menu'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import firebase from 'firebase'
 
+const appContext = useContext(AppContext);
+
 const useStyles = makeStyles(theme => ({
   root: {
     marginTop:'15px',
@@ -19,7 +21,8 @@ const useStyles = makeStyles(theme => ({
   },
   toolbar: {backgroundColor:'midnightblue'},
   login:{verticalAlign: 'middle', marginTop: 'none'},
-  loginText: {fontSize: '80%', marginRight: '10px'}
+  loginText: {fontSize: '80%', marginRight: '10px'},
+  loginLink: {visited: '#FFF'}
 }))
 
 const TopBar = () => {
@@ -51,7 +54,7 @@ const TopBar = () => {
   
   return (
       <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar>
         <Toolbar className={classes.toolbar}>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
@@ -63,7 +66,7 @@ const TopBar = () => {
             </Typography> : null
           }
           <Typography variant="h6" className={classes.title}>
-            PACKDEP - continous dependency
+            PACKDEP - continuous dependency
           </Typography>
           {user?
           <Typography className={classes.login}>
@@ -79,7 +82,7 @@ const TopBar = () => {
                         edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
               <GitHubIcon/>
             </IconButton>
-            <Typography className={classes.loginText}>Login With GitHub</Typography>
+            <Typography className={classes.loginText}><a onClick={githubLogin} style={{ color: '#FFF' }} href='#'>Login With GitHub</a></Typography>
           </Typography>
         } 
         </Toolbar>
