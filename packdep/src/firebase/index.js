@@ -14,9 +14,10 @@ import config from './firebaseConfig'
 // }
 
 const app = firebase.initializeApp(config)
+const user = null
 const FirebaseContext = React.createContext({
-  app: app,
-  user: null
+  app,
+  user
 })
 
 class Firebase {
@@ -28,4 +29,4 @@ class Firebase {
 
 const rsf = new ReduxSagaFirebase(app)
 export default FirebaseContext 
-export {Firebase, rsf}
+export {Firebase, app as firebaseApp, rsf}

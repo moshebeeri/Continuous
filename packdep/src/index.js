@@ -1,19 +1,19 @@
 import React from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
-import Navigation from '../Navigation'
+// import { BrowserRouter as Router } from 'react-router-dom'
+// import Navigation from '../Navigation'
 import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import FirebaseContext, { Firebase } from './firebase'
+import { Firebase } from './firebase'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import rootReducer from './redux/reducers/rootReducer'
-const sagaMiddleware = createSagaMiddleware()
-const store = createStore(rootReducer,   applyMiddleware(sagaMiddleware))
+import AppContext from './appContext'
 
-const AppContext = React.createContext({});
+const sagaMiddleware = createSagaMiddleware()
+const store = createStore(rootReducer, {}, applyMiddleware(sagaMiddleware))
 
 /***
  * For firebase setup see:

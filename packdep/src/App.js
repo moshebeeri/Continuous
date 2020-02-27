@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from './logo.svg'
+// import logo from './logo.svg'
 import './App.css'
 import 'typeface-roboto'
 import TopBar from './components/TopBar/topbar'
@@ -11,7 +11,6 @@ const App = () => {
       <TopBar/>
       <header className="App-header">
         <Project />
-        <img src={logo} className="App-logo" alt="logo" />
       </header>
     </div>
   )

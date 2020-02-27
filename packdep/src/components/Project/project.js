@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState, useContext } from 'react'
+import { useDispatch, useSelector } from "react-redux";
 
 const Project = () => {
 
   return <div>
-    this is a project with <button onClick={(event) => {console.log('clicked!!')}}>click</button> 
+    This project is with <button onClick={(event) => {console.log('clicked!!')}}>click</button> 
   </div>
 
 }

@@ -4,8 +4,11 @@ import { AppBar, Toolbar, Typography, IconButton, Button}  from '@material-ui/co
 import MenuIcon from '@material-ui/icons/Menu'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import firebase from 'firebase'
+import { LOGIN, LOGOUT } from '../../redux/actions/userActions'
 
-const appContext = useContext(AppContext);
+import { useDispatch, useSelector } from "react-redux";
+
+// const appContext = useContext(AppContext);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,6 +30,8 @@ const useStyles = makeStyles(theme => ({
 
 const TopBar = () => {
   const [user, setUser] = useState(null);
+  const currentUser = useSelector(state => state.currentUser)
+
   const classes = useStyles()
   //see https://blog.logrocket.com/use-hooks-and-context-not-react-and-redux/
 
