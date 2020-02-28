@@ -9,11 +9,13 @@ import { Firebase } from './firebase'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
-import rootReducer from './redux/reducers/rootReducer'
+import rootReducer from './redux/reducers'
 import AppContext from './appContext'
 
 const sagaMiddleware = createSagaMiddleware()
 const store = createStore(rootReducer, {}, applyMiddleware(sagaMiddleware))
+
+store.subscribe(() => console.log(store.getState()))
 
 /***
  * For firebase setup see:

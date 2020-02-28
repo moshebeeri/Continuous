@@ -30,6 +30,7 @@ const useStyles = makeStyles(theme => ({
 
 const TopBar = () => {
   const [user, setUser] = useState(null);
+  // Allows you to extract data from the Redux store state, using a selector function.
   const currentUser = useSelector(state => state.currentUser)
 
   const classes = useStyles()

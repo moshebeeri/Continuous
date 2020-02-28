@@ -14,8 +14,8 @@ export const VisibilityFilters = {
  * action creators
  */
 export function login(user) {
-  return { user }
+  return { type: LOGIN, user }
 }
-export function logout(user) {
-  return {}
+export function logout() {
+  return { type: LOGOUT, user: null}
 }
