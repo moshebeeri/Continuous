@@ -4,11 +4,8 @@ import { AppBar, Toolbar, Typography, IconButton, Button}  from '@material-ui/co
 import MenuIcon from '@material-ui/icons/Menu'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import firebase from 'firebase'
-import { LOGIN, LOGOUT } from '../../redux/actions/userActions'
-
-import { useDispatch, useSelector } from "react-redux";
-
-// const appContext = useContext(AppContext);
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,9 +26,8 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const TopBar = () => {
-  const [user, setUser] = useState(null);
+  const [user, loading, error] = useAuthState(firebase.auth());
   // Allows you to extract data from the Redux store state, using a selector function.
-  const currentUser = useSelector(state => state.currentUser)
   const projectsCount = useSelector(state => state.projectsReducer.projectsCount)
 
   const classes = useStyles()
@@ -44,8 +40,8 @@ const TopBar = () => {
       // This gives you a GitHub Access Token. You can use it to access the GitHub API.
       var token = result.credential.accessToken
       // The signed-in user info.
-      var user = result.user
-      setUser(user)
+      // var user = result.user
+      // setUser(user)
       // ...
       }).catch(function(error) {
         // Handle Errors here.
