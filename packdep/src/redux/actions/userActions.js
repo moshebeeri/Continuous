@@ -1,21 +1,15 @@
-export const LOGIN = 'LOGIN'
-export const LOGOUT = 'LOGOUT'
+export const SET_USER = 'SET_USER'
+export const LOG_OUT = 'LOG_OUT'
 
-/*
- * other constants
- */
-export const VisibilityFilters = {
-  SHOW_ALL: 'SHOW_ALL',
-  SHOW_COMPLETED: 'SHOW_COMPLETED',
-  SHOW_ACTIVE: 'SHOW_ACTIVE'
+const setUser = (user) => {
+  return { type: SET_USER,
+            payload: user }
+}
+const  logout = () => {
+  return { type: LOG_OUT}
 }
 
-/*
- * action creators
- */
-export function login(user) {
-  return { type: LOGIN, user }
-}
-export function logout() {
-  return { type: LOGOUT, user: null}
+export default {
+  setUser,
+  logout
 }

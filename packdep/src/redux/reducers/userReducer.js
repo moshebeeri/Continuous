@@ -1,11 +1,22 @@
-import {LOGIN, LOGOUT} from '../actions/userActions'
+import {SET_USER, LOG_OUT} from '../actions/userActions'
 
-export function loginReducer (user, action) {
+const currentUser = (state = {}, action) => {
   switch(action.type){
-    case LOGIN:
-        return user
-    case LOGOUT:
-    default:
-      return null
+      case SET_USER:
+          return {
+              ...state,
+              user: action.payload,
+              loggedIn: true
+          }
+      case LOG_OUT:
+          return {
+              ...state,
+              user: {},
+              loggedIn: false
+          }
+      default:
+          return state
   }
 }
+
+export default currentUser;

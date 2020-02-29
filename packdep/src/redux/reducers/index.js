@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux'
 import loadingReducer from './loadingReducer'
-import {loginReducer} from './userReducer'
-
+import currentUser from './userReducer'
+import projectsReducer from './projectsReducer'
 
 
 const rootReducer = combineReducers({
-  loadingReducer, loginReducer
+  loadingReducer, 
+  currentUser, 
+  projectsReducer
 })
 
 export default rootReducer

@@ -32,6 +32,7 @@ const TopBar = () => {
   const [user, setUser] = useState(null);
   // Allows you to extract data from the Redux store state, using a selector function.
   const currentUser = useSelector(state => state.currentUser)
+  const projectsCount = useSelector(state => state.projectsReducer.projectsCount)
 
   const classes = useStyles()
   //see https://blog.logrocket.com/use-hooks-and-context-not-react-and-redux/
@@ -46,17 +47,17 @@ const TopBar = () => {
       var user = result.user
       setUser(user)
       // ...
-    }).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code
-      var errorMessage = error.message
-      // The email of the user's account used.
-      var email = error.email
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential
-      // ...
-    })
-      }
+      }).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code
+        var errorMessage = error.message
+        // The email of the user's account used.
+        var email = error.email
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential
+        // ...
+      })
+    }
   
   return (
       <div className={classes.root}>
@@ -68,11 +69,11 @@ const TopBar = () => {
           {
             user? 
              <Typography variant="5" style={{textTransform: "capitalize"}}>
-              Hello {user.displayName}
+              Hello {user.displayName} 
             </Typography> : null
           }
           <Typography variant="h6" className={classes.title}>
-            PACKDEP - continuous dependency
+            PACKDEP - continuous dependency {parseInt(projectsCount)} projects
           </Typography>
           {user?
           <Typography className={classes.login}>
