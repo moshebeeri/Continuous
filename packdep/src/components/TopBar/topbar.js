@@ -1,11 +1,13 @@
-import React, { useState, useContext } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { AppBar, Toolbar, Typography, IconButton, Button}  from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import firebase from 'firebase'
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import userActions from '../../redux/actions/userActions'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,9 +29,14 @@ const useStyles = makeStyles(theme => ({
 
 const TopBar = () => {
   const [user, loading, error] = useAuthState(firebase.auth());
+  const dispatch = useDispatch()
+  dispatch(userActions.setUser(user))
+
+  if(!loading && !error)
+    console.log(JSON.stringify(user, undefined, 2))
+
   // Allows you to extract data from the Redux store state, using a selector function.
   const projectsCount = useSelector(state => state.projectsReducer.projectsCount)
-
   const classes = useStyles()
   //see https://blog.logrocket.com/use-hooks-and-context-not-react-and-redux/
 
@@ -39,6 +46,8 @@ const TopBar = () => {
       firebase.auth().signInWithPopup(provider).then(function(result) {
       // This gives you a GitHub Access Token. You can use it to access the GitHub API.
       var token = result.credential.accessToken
+      console.log(token)
+      dispatch(userActions.setUser(result.user))
       // The signed-in user info.
       // var user = result.user
       // setUser(user)
@@ -64,7 +73,7 @@ const TopBar = () => {
           </IconButton>
           {
             user? 
-             <Typography variant="5" style={{textTransform: "capitalize"}}>
+             <Typography variant="h5" style={{textTransform: "capitalize"}}>
               Hello {user.displayName} 
             </Typography> : null
           }
