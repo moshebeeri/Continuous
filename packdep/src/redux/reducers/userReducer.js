@@ -1,12 +1,14 @@
-import {SET_USER, LOG_OUT} from '../actions/userActions'
+import {SET_USER, 
+  LOG_OUT,
+  LOGIN,
+  GITHUB_ACCESS_TOKEN} from '../actions/userActions'
 
-const currentUser = (state = {}, action) => {
+const githubUser = (state = {}, action) => {
   switch(action.type){
       case SET_USER:
           return {
               ...state,
               user: action.payload,
-              loggedIn: true
           }
       case LOG_OUT:
           return {
@@ -14,9 +16,20 @@ const currentUser = (state = {}, action) => {
               user: {},
               loggedIn: false
           }
-      default:
+      case LOGIN:
+        return {
+            ...state,
+            loggedIn: true
+        }
+      case GITHUB_ACCESS_TOKEN:
+        return {
+            ...state,
+            accessToken: action.payload
+        }
+  
+        default:
           return state
   }
 }
 
-export default currentUser;
+export default githubUser

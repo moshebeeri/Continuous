@@ -6,7 +6,7 @@ import FirebaseContext,  { app, rsf } from '../../firebase'
 const FiredComponent = () => (
   <FirebaseContext.Consumer>
     {firebase => {
-      return <div>I've access to Firebase and render Something {rsf.auth.currentUser}.</div>
+      return <div>I've access to Firebase and render Something {rsf.auth.githubUser}.</div>
     }}
   </FirebaseContext.Consumer>
 )

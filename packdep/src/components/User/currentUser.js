@@ -2,7 +2,7 @@ import React from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import firebase from 'firebase'
 
-const CurrentUser = () => {
+const githubUser = () => {
   const [user, initialising, error] = useAuthState(firebase.auth())
   const login = () => {
     firebase.auth().signInWithEmailAndPassword('test@test.com', 'password')
@@ -36,4 +36,4 @@ const CurrentUser = () => {
   return <button onClick={login}>Log in</button>
 }
 
-export default CurrentUser
+export default githubUser

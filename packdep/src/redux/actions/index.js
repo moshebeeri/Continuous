@@ -1,5 +1,5 @@
 import userActions from './userActions'
-import porjectActions from './porjectActions'
+import porjectActions from './projectsActions'
 
 const actions = {
     userActions,
