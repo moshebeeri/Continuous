@@ -6,6 +6,7 @@ import GitHubIcon from '@material-ui/icons/GitHub'
 import firebase from 'firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from "react-redux"
+import { useCollectionOnce } from 'react-firebase-hooks/firestore';
 
 import userActions from '../../redux/actions/userActions'
 
@@ -41,13 +42,23 @@ function saveGithubToken(db, user, accessToken) {
 
 const TopBar = () => {
   const [user] = useAuthState(firebase.auth())
+  
   const dispatch = useDispatch()
-  let accessToken = useSelector(state => state.githubUser.accessToken)
   // Allows you to extract data from the Redux store state, using a selector function.
   const projectsCount = useSelector(state => state.projectsReducer.projectsCount)
   const classes = useStyles()
   const db = firebase.firestore()
-
+  // get accessToken by firebase user
+  if(user){
+      db.collection('github_users').where('uid', '==', user.uid).get().then( snapshot => {
+        try{
+          const githubUser = snapshot.docs[0].data()
+          dispatch(userActions.setGithubAccessToken(githubUser.token))
+        }catch(e){
+          console.log(e.message)
+        }
+      })
+  }
   //see https://blog.logrocket.com/use-hooks-and-context-not-react-and-redux/
 
     const githubLogin = (event) => {
