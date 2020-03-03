@@ -6,7 +6,6 @@ import GitHubIcon from '@material-ui/icons/GitHub'
 import firebase from 'firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from "react-redux"
-import { useCollectionOnce } from 'react-firebase-hooks/firestore';
 
 import userActions from '../../redux/actions/userActions'
 
@@ -30,13 +29,20 @@ const useStyles = makeStyles(theme => ({
 
 
 function saveGithubToken(db, user, accessToken) {
-  db.collection("github_users").add({token: accessToken, uid: user.uid })
+  db.collection("github_users").where('uid', '==', user.uid).get().then((querySnapshot) => {
+    querySnapshot.forEach(function(doc) {
+      doc.ref.delete();
+    });
+      db.collection("github_users").add({token: accessToken, uid: user.uid })
     .then(function (docRef) {
       console.log("Document written with ID: ", docRef.id)
     })
     .catch(function (error) {
       console.error("Error adding document: ", error)
     })
+  }).catch(function(error) {
+      console.error("Error removing document: ", error);
+  });
 }
 
 
@@ -60,9 +66,18 @@ const TopBar = () => {
       })
   }
   //see https://blog.logrocket.com/use-hooks-and-context-not-react-and-redux/
+    const githubLogout = (params) => {
+      firebase.auth().signOut()
+      db.collection('github_users').where('uid', '==', user.uid).get().then( snapshot => {
+        snapshot.forEach(function(doc) {
+          doc.ref.delete();
+        })
+      })
+    }
 
     const githubLogin = (event) => {
       const provider = new firebase.auth.GithubAuthProvider()
+      provider.addScope('user');
       firebase.auth().signInWithPopup(provider).then(function(result) {
       // This gives you a GitHub Access Token. You can use it to access the GitHub API.
       var accessToken = result.credential.accessToken
@@ -101,7 +116,7 @@ const TopBar = () => {
           </Typography>
           {user?
           <Typography className={classes.login}>
-            <IconButton onClick={githubLogin} 
+            <IconButton onClick={githubLogout} 
                         edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
               <GitHubIcon/>
             </IconButton>

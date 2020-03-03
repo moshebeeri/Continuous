@@ -11,31 +11,39 @@ const Project = () => {
   const accessToken = useSelector(state => state.githubUser.accessToken)
   const githubUser = useSelector(state => state.githubUser.accessToken)
   const [orgs, setOrgs] = useState([])
+  const [repos, setRepos] = useState([])
 
-  function saveDataToFirebase(){}
-
-  // useEffect(() => {
-  //     if(accessToken){
-  //       const octokit = getAuthenticatedOctokit(accessToken)
-  //       octokit.repos.list({per_page: 10, page: 1})
-  //       .then((response) => {
-  //         console.log(JSON.stringify(response))
-  //         setOrgs(response.data.map(repo => repo.name))
-  //       })
-  //     }
-  //   })
-  //   return <div>{JSON.stringify(orgs)}</div>
+  function getUserGithubStatus(){
+    if(accessToken){
+      const octokit = getAuthenticatedOctokit(accessToken)
+      octokit.repos.list({per_page: 10, page: 1})
+      .then((response) => {
+        // console.log(JSON.stringify(response))
+        setRepos(response.data.map(repo => repo.name))
+      })
+      octokit.orgs.listForAuthenticatedUser({per_page: 10, page: 1})
+      .then((response) => {
+        console.log(JSON.stringify(response))
+        setOrgs(response.data.map(org => org.login))
+      });
+    }
+  }
 
   return( <div>
     <Typography>{count}</Typography>
       This project is with <button onClick={(event) => {
         dispatch(projectsActions.addProject())
+        getUserGithubStatus();
+
         console.log('clicked!!')
       }}>Increase</button> 
       {
         accessToken? 
-        <Typography>You have {orgs.length} orgs</Typography> :
-        <Typography>No orgs for me</Typography>
+        <Typography>
+          You have {repos.length} repos and you are member of {orgs.length} orgs
+          orgs {JSON.stringify(orgs)}
+        </Typography> :
+        <Typography>No repos for you</Typography>
       }
     </div>
   )
