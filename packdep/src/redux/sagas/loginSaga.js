@@ -2,20 +2,26 @@ import firebase from 'firebas'
 import { put, all, call, takeEvery } from 'redux-saga/effects'
 import {rsf} from '../../firebase'
 import { LOGIN } from '../actions/userActions'
-const authProvider = new firebase.auth.GoogleAuthProvider()
+const authProvider = new firebase.auth.GithubAuthProvider()
 
-function* loginSaga() {
+//Worker
+function* loginSagaAsync() {
   try {
-    const data = yield call(rsf.auth.signInWithPopup, authProvider)
-    yield put(loginSuccess(data))
+    const result = yield call(rsf.auth.signInWithPopup, authProvider)
+    yield put({type: LOGIN_SUCCESS, 
+      payload: {
+        accessToken: result.credential.accessToken, 
+        user: result.user
+      }})
   }
   catch(error) {
-    yield put(loginFailure(error))
+    yield put({type: LOGIN_FAILIURE , payload: error})
   }
 }
 
-export default function* rootSaga() {
+//Watcher
+export default function* loginSaga() {
   yield all([
-    takeEvery(LOGIN, loginSaga)
+    takeEvery(LOGIN, loginSagaAsync)
   ])
 }

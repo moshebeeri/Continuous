@@ -20,6 +20,18 @@ const Project = () => {
       .then((response) => {
         // console.log(JSON.stringify(response))
         setRepos(response.data.map(repo => repo.name))
+        response.data.map(repo => {
+          octokit.repos.listBranches({
+            owner: repo.owner.login,
+            repo: repo.name
+          }).then((response) => {
+            console.log(JSON.stringify(response.data))
+            
+          }).catch((e) => {
+            console.log(e.message)
+          })
+          return true
+        })
       })
       octokit.orgs.listForAuthenticatedUser({per_page: 10, page: 1})
       .then((response) => {
