@@ -31,7 +31,7 @@ const Project = () => {
               let newReposBranches = {...reposBranches }
               newReposBranches[repo.name] = response.data
               setReposBranches(newReposBranches);
-              console.log(JSON.stringify(reposBranches));
+              console.log(`JSON.stringify(reposBranches)${JSON.stringify(reposBranches)}`);
             })
             .catch(e => {
               console.log(e.message);
@@ -68,7 +68,7 @@ const Project = () => {
         <Typography>
           You have {repos.length} repos and you are member of {orgs.length} orgs
           orgs {JSON.stringify(orgs)} 
-          branches {JSON.stringify(Object.keys(reposBranches).length)}
+          branches {JSON.stringify(Object.keys(reposBranches).map(key => reposBranches[key].length).reduce((prev, curr) => prev+curr, 0))}
         </Typography>
       ) : (
         <Typography>No repos for you</Typography>
