@@ -26,10 +26,10 @@ const App = () => {
 }
 
   return (
-    <div className="App">
+    <div   className="App">
       <TopBar/>
       <header className="App-header">
-        <Project />
+        <Project style={{backgroundColor:'blue', width: "80%"}}/>
       </header>
     </div>
   )

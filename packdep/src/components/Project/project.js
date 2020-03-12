@@ -17,11 +17,13 @@ import {
 import { getOctokit, getAuthenticatedOctokit } from "../../github"
 import { useCollection } from "react-firebase-hooks/firestore"
 import { makeStyles } from "@material-ui/core/styles"
+import { red } from "@material-ui/core/colors"
 
 const useStyles = makeStyles(theme => ({
   container: {
     display: "flex",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+    width: '100%'
   },
   formControl: {
     margin: theme.spacing(1),
@@ -29,6 +31,8 @@ const useStyles = makeStyles(theme => ({
   },
   projectPaper: {
     display: 'flex',
+    width: '80%',
+    backgroundColor: '#AAA',
     flexDirection: 'column',
     flexWrap: 'wrap',
     '& > *': {
@@ -136,19 +140,27 @@ const Project = () => {
   }
 
   const renderAddedProjects = () => {
-    console.log(`renderAddedProjects ${JSON.stringify(projects)}`)
-    const dataTest = {
-      repo1:{branch:'barach1'},
-      repo2:{branch:'barach2'},
-      repo3:{branch:'barach3'},
+    const projects = {
+      repo1: {branch:'branch1'},
+      repo2: {branch:'branch2'},
+      repo3: {branch:'branch3'},
+      repo4: {branch:'branch4'},
+      repo5: {branch:'branch4'},
+      repo6: {branch:'branch4'},
+      repo7: {branch:'branch4'},
+      repo8: {branch:'branch4'},
+      repo19: {branch:'branch4'},
+      repo39: {branch:'branch4'},
+      repo49: {branch:'branch4'},
+      repo59: {branch:'branch4'},
     }
-    return Object.keys(dataTest).map(repo => {
-      const branch = dataTest[repo].branch
+    return Object.keys(projects).map(repo => {
+      const branch = projects[repo].branch
       return (
-      <div className={classes.projectPaper}>
-        <Paper style={{display: 'flex', flexDirection:'column'}} variant="outlined" elevation={3}> 
-          <Typography key={repo+branch+"_repo"} component={'span'}>Repo: {repo}</Typography>
-          <Typography key={repo+branch+"_branch"} component={'span'}>Branch: {branch}</Typography>
+      <div style={{width:'250px', display: 'flex', flexWrap:'wrap', margin:'10px'}}>
+        <Paper variant="outlined" elevation={3} style={{alienItems:'flex-start', display: 'flex',flexDirection:'column'}}> 
+          <Typography align='left' key={repo+branch+"_repo"} component={'span'}>Repo: {repo}</Typography>
+          <Typography align='left' key={repo+branch+"_branch"} component={'span'}>Branch: {branch}</Typography>
         </Paper>
       </div>
     )})
@@ -156,7 +168,9 @@ const Project = () => {
 
   return (
     <div>
-    {renderAddedProjects()}
+      <div style={{ width:'900px', height:'600px', display: 'flex', flexWrap:'wrap', flexDirection:'row'}}>
+        {renderAddedProjects()}
+      </div>
     <Button onClick={handleClickOpen}>Open select dialog</Button>
       <Dialog
         disableBackdropClick
