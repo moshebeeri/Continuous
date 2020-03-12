@@ -3,11 +3,11 @@ export const DELETE_PROJECT = 'DELETE_PROJECT'
 export const ADD_PROJECT_ASYNC = 'ADD_PROJECT_ASYNC'
 export const DELETE_PROJECT_ASYNC = 'DELETE_PROJECT_ASYNC'
 
-const addProject = () => {
-  return { type: ADD_PROJECT }
+const addProject = (projectData) => {
+  return { type: ADD_PROJECT, payload: projectData }
 }
-const deleteProject = () => {
-  return { type: DELETE_PROJECT}
+const deleteProject = (projectId) => {
+  return { type: DELETE_PROJECT, payload: projectId}
 }
 
 export default {

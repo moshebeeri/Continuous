@@ -107,28 +107,28 @@ const TopBar = () => {
           </IconButton>
           {
             user? 
-             <Typography variant="h5" style={{textTransform: "capitalize"}}>
+             <Typography component={'span'}  variant="h5" style={{textTransform: "capitalize"}}>
               Hello {user.displayName} 
             </Typography> : null
           }
-          <Typography variant="h6" className={classes.title}>
+          <Typography component={'span'}  variant="h6" className={classes.title}>
             PACKDEP - continuous dependency {parseInt(projectsCount)} projects
           </Typography>
           {user?
-          <Typography className={classes.login}>
+          <Typography component={'span'} className={classes.login}>
             <IconButton onClick={githubLogout} 
                         edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
               <GitHubIcon/>
             </IconButton>
-           <Typography className={classes.loginText}>Logout GitHub</Typography>
+           <Typography component={'span'} className={classes.loginText}>Logout GitHub</Typography>
           </Typography>
           : 
-          <Typography className={classes.login}>
+          <Typography component={'span'} className={classes.login}>
             <IconButton onClick={githubLogin} 
                         edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
               <GitHubIcon/>
             </IconButton>
-            <Typography className={classes.loginText}><a onClick={githubLogin} style={{ color: '#FFF' }} href='#'>Login With GitHub</a></Typography>
+            <Typography component={'span'} className={classes.loginText}><a onClick={githubLogin} style={{ color: '#FFF' }} href='#'>Login With GitHub</a></Typography>
           </Typography>
         } 
         </Toolbar>

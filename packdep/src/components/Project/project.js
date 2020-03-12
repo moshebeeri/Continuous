@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Typography } from "@material-ui/core"
+import { Typography, Paper } from "@material-ui/core"
 import projectsActions from "../../redux/actions/projectsActions"
 import {
   Select,
@@ -26,11 +26,22 @@ const useStyles = makeStyles(theme => ({
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120
+  },
+  projectPaper: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    '& > *': {
+      margin: theme.spacing(1),
+      width: theme.spacing(16),
+      height: theme.spacing(16),
+    },
   }
+
 }))
 
 const Project = () => {
-  const count = useSelector(state => state.projectsReducer.projectsCount)
+  const projects = useSelector(state => state.projectsReducer.projects)
   const dispatch = useDispatch()
   const accessToken = useSelector(state => state.githubUser.accessToken)
   const githubUser = useSelector(state => state.githubUser.accessToken)
@@ -40,6 +51,7 @@ const Project = () => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
   const [repo, setRepo] = React.useState("")
+  const [branch, setBranch] = React.useState("")
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -48,7 +60,15 @@ const Project = () => {
   const handleClose = () => {
     setOpen(false)
   }
-
+  const handleOk = () => {
+    //TODO: update redux database and functions
+    setOpen(false)
+    const projectToAdd = {}
+    projectToAdd[repo] = {branch}
+    console.log(`handle add ${JSON.stringify(projectToAdd)}`)
+    dispatch(projectsActions.addProject(projectToAdd))
+  }
+  
   function getUserGithubStatus() {
     if (accessToken) {
       const octokit = getAuthenticatedOctokit(accessToken)
@@ -66,9 +86,6 @@ const Project = () => {
               let newReposBranches = { ...reposBranches }
               newReposBranches[repo.name] = response.data
               setReposBranches(newReposBranches)
-              console.log(
-                `JSON.stringify(reposBranches)${JSON.stringify(reposBranches)}`
-              )
             })
             .catch(e => {
               console.log(e.message)
@@ -79,7 +96,6 @@ const Project = () => {
       octokit.orgs
         .listForAuthenticatedUser({ per_page: 10, page: 1 })
         .then(response => {
-          console.log(JSON.stringify(response))
           setOrgs(response.data.map(org => org.login))
         })
     }
@@ -89,21 +105,59 @@ const Project = () => {
     if (accessToken) getUserGithubStatus()
   }, [accessToken])
   const renderRepoSelect = (repos) => {
-    const ret = repos.map((repo, i) => {
-      return <MenuItem id={i} value={repo}>{repo}</MenuItem>
+    return repos.map((repo, i) => {
+      return <MenuItem key={i} id={i} value={repo}>{repo}</MenuItem>
     })
-    console.log(`========>>> ${ret.length}`)
-    return ret
   }
-
-  const handleChange = event => {
+  
+  const renderBranchSelect = () => {
+    if(repo !== "" && reposBranches[repo]){
+      return reposBranches[repo].map((branch, i) => {
+        return <MenuItem key={i} id={i} value={branch.name}>{branch.name}</MenuItem>
+      })
+    }
+  }
+  
+  const handleRepoSelected = event => {
     console.log(event.target.value)
     setRepo(event.target.value || '')
   }
 
+  const handleBranchSelected = event => {
+    console.log(event.target.value)
+    setBranch(event.target.value || '')
+  }
+  
+  const getDefaultBranchForSelection = () => {
+    if(repo !== "" && branch === "" && reposBranches[repo] && 
+      reposBranches[repo].length === 1)
+      return reposBranches[repo][0].name
+    return branch
+  }
+
+  const renderAddedProjects = () => {
+    console.log(`renderAddedProjects ${JSON.stringify(projects)}`)
+    const dataTest = {
+      repo1:{branch:'barach1'},
+      repo2:{branch:'barach2'},
+      repo3:{branch:'barach3'},
+    }
+    return Object.keys(dataTest).map(repo => {
+      const branch = dataTest[repo].branch
+      return (
+      <div className={classes.projectPaper}>
+        <Paper style={{display: 'flex', flexDirection:'column'}} variant="outlined" elevation={3}> 
+          <Typography key={repo+branch+"_repo"} component={'span'}>Repo: {repo}</Typography>
+          <Typography key={repo+branch+"_branch"} component={'span'}>Branch: {branch}</Typography>
+        </Paper>
+      </div>
+    )})
+  }
+
   return (
     <div>
-      <Button onClick={handleClickOpen}>Open select dialog</Button>
+    {renderAddedProjects()}
+    <Button onClick={handleClickOpen}>Open select dialog</Button>
       <Dialog
         disableBackdropClick
         disableEscapeKeyDown
@@ -114,38 +168,40 @@ const Project = () => {
         <DialogContent>
           <form className={classes.container}>
             <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="demo-dialog-native">Repo</InputLabel>
+              <InputLabel htmlFor="repo-dialog-native">Repo</InputLabel>
               <Select
-              labelId="demo-dialog-select-label"
-              id="demo-dialog-select"
+              labelId="repo-dialog-select-label"
+              id="repo-dialog-select"
               value={repo}
-              onChange={handleChange}
+              onChange={handleRepoSelected}
               input={<Input />}
-            >
+              >
                 {renderRepoSelect(repos)}
-                </Select>
+              </Select>
+            </FormControl>
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="branch-dialog-native">Branch</InputLabel>
+              <Select
+              labelId="branch-dialog-select-label"
+              id="branch-dialog-select"
+              value={getDefaultBranchForSelection()}
+              onChange={handleBranchSelected}
+              input={<Input />}
+              >
+                {renderBranchSelect()}
+              </Select>
             </FormControl>
           </form>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={handleOk} color="primary">
               Ok
             </Button>
           </DialogActions>
         </DialogContent>
       </Dialog>
-      <Typography>{count}</Typography>
-      This project is with{" "}
-      <button
-        onClick={event => {
-          dispatch(projectsActions.addProject())
-          console.log("clicked!!")
-        }}
-      >
-        Increase
-      </button>
       {accessToken ? (
         <Typography>
           You have {repos.length} repos and you are member of {orgs.length} orgs
