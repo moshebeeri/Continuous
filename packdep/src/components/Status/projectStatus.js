@@ -9,14 +9,14 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Project = (props) => {
+const ProjectStatus = (props) => {
   const classes = useStyles()
   return (
     <div className={classes.container}>
-      <h1>Hi, I am a project component</h1>
+      <h1>Hi, I am a project Status component</h1>
     </div>
   )
 }
 
-export default Project
+export default ProjectStatus
 
