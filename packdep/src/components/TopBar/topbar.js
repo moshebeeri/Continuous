@@ -13,13 +13,16 @@ const useStyles = makeStyles(theme => ({
   root: {
     marginTop:'15px',
     width: '100%',
-    flexGrow: 1
+    flexGrow: 1,
+    alignItems: 'center'
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
+    alignItems: 'center',
+    textAlign: 'center'
   },
   toolbar: {backgroundColor:'midnightblue'},
   login:{verticalAlign: 'middle', marginTop: 'none'},
@@ -100,7 +103,7 @@ const TopBar = () => {
     }
   
   return (
-      <div className={classes.root}>
+      <div>
       <AppBar>
         <Toolbar className={classes.toolbar}>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">

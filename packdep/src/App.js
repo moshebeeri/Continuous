@@ -26,17 +26,17 @@ const App = () => {
       }
     })
   }
-//style={{ backgroundColor: 'blue', width: "100%" }}
+  //style={{ backgroundColor: 'blue', width: "100%" }}
   return (
-    <BrowserRouter>
-      <div className="App">
+    <div className="App">
+      <BrowserRouter>
         <TopBar />
-        <header className="App-header">
+        <div style={{width:'100%', display:'flex', flexDirection:'column'}}>
           <Route path='/' exact component={Projects} />
           <Route path='/status' exact component={ProjectStatus} />
-        </header>
-      </div>
-    </BrowserRouter>
+        </div>
+      </BrowserRouter>
+    </div>
   )
 }
 

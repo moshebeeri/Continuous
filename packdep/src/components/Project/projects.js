@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   },
   projectPaper: {
     display: 'flex',
-    width: '80%',
+    width: '100%',
     backgroundColor: '#AAA',
     flexDirection: 'column',
     flexWrap: 'wrap',
@@ -197,7 +197,7 @@ const Projects = () => {
   }
 
   return (
-    <div style={{ width: "80%", justifyContent: 'center', alignItems: 'center' }}>
+    <div style={{justifyContent: 'center', alignItems: 'center' }}>
       <Button style={{ color: 'white', backgroundColor: "#AAA" }} onClick={handleClickOpen}>Add Repo</Button>
       <Dialog
         disableBackdropClick
