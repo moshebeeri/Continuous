@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Typography, Paper } from "@material-ui/core"
+import firebase from 'firebase'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import projectsActions from "../../redux/actions/projectsActions"
 import {
   Select,
@@ -48,7 +50,6 @@ const Projects = () => {
   const projects = useSelector(state => state.projectsReducer.projects)
   const dispatch = useDispatch()
   const accessToken = useSelector(state => state.githubUser.accessToken)
-  const githubUser = useSelector(state => state.githubUser.accessToken)
   const [orgs, setOrgs] = useState([])
   const [repos, setRepos] = useState([])
   const [reposBranches, setReposBranches] = useState({})
@@ -56,7 +57,9 @@ const Projects = () => {
   const [open, setOpen] = React.useState(false)
   const [repo, setRepo] = React.useState("")
   const [branch, setBranch] = React.useState("")
-
+  const [user] = useAuthState(firebase.auth())
+  const db = firebase.firestore()
+  
   const handleClickOpen = () => {
     setOpen(true)
   }
@@ -68,8 +71,15 @@ const Projects = () => {
     //TODO: update redux database and functions
     setOpen(false)
     const projectToAdd = { repo, branch }
-    console.log(`handle add ${JSON.stringify(projectToAdd)}`)
-    dispatch(projectsActions.addProject(projectToAdd))
+    db.collection('projects').add({uid: user.uid, repo, branch, status: {}})
+      .then(function (docRef) {
+        console.log(`Project ${JSON.stringify(projectToAdd)} added ID: ${docRef.id}`)
+        dispatch(projectsActions.addProject(projectToAdd))
+      })
+      .catch(function (error) {
+        console.error('Error adding document: ', error)
+      })
+
   }
 
   function getUserGithubStatus() {

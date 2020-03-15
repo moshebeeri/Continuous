@@ -33,13 +33,13 @@ function saveGithubToken(db, user, accessToken) {
     querySnapshot.forEach(function(doc) {
       doc.ref.delete();
     });
-      db.collection("github_users").add({token: accessToken, uid: user.uid })
-    .then(function (docRef) {
-      console.log("Document written with ID: ", docRef.id)
-    })
-    .catch(function (error) {
-      console.error("Error adding document: ", error)
-    })
+    db.collection("github_users").add({token: accessToken, uid: user.uid })
+      .then(function (docRef) {
+        console.log("Document written with ID: ", docRef.id)
+      })
+      .catch(function (error) {
+        console.error("Error adding document: ", error)
+      })
   }).catch(function(error) {
       console.error("Error removing document: ", error);
   });
@@ -70,6 +70,7 @@ const TopBar = () => {
       firebase.auth().signOut()
       db.collection('github_users').where('uid', '==', user.uid).get().then( snapshot => {
         snapshot.forEach(function(doc) {
+          // Not sure we really need to delete the user
           doc.ref.delete();
         })
       })
