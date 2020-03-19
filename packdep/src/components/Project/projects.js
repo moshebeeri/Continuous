@@ -67,11 +67,26 @@ const Projects = () => {
   const handleClose = () => {
     setOpen(false)
   }
+
+  const getUserProjects = async () => {
+    return new Promise((resolve, reject) => {
+      db.collection("projects" )
+        .where("uid", "==", user.uid)
+        .orderBy('last_run')
+        .get()
+        .then(querySnapshot => {
+          return resolve(querySnapshot)
+        })
+        .catch(function(error) {
+          reject(error)
+        })
+    })
+  }
+
   const handleOk = () => {
-    //TODO: update redux database and functions
     setOpen(false)
     const projectToAdd = { repo, branch }
-    db.collection('projects').add({uid: user.uid, repo, branch, status: {}})
+    db.collection('projects').add({ uid: user.uid, repo, branch, status: '' })
       .then(function (docRef) {
         console.log(`Project ${JSON.stringify(projectToAdd)} added ID: ${docRef.id}`)
         dispatch(projectsActions.addProject(projectToAdd))
