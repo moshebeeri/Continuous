@@ -1,4 +1,8 @@
-import {ADD_PROJECT, DELETE_PROJECT} from '../actions/projectsActions'
+import {
+  ADD_PROJECT,
+  ADD_PROJECTS,
+  DELETE_PROJECT
+} from "../actions/projectsActions";
 import _ from 'lodash'
 
 /**
@@ -10,6 +14,8 @@ const projectsReducer = (state = {projectsCount: 0, projects: [] }, action) => {
   switch(action.type) {
     case ADD_PROJECT:
       return {...state, projectsCount: state.projectsCount+1, projects: [...state.projects, action.payload]}
+    case ADD_PROJECTS:
+      return {...state, projectsCount: state.projectsCount+1, projects: [...state.projects, ...action.payload]}
     case DELETE_PROJECT:
       return {...state, projectsCount: state.projectsCount-1}
     default:

@@ -17,7 +17,7 @@ import {
   InputLabel
 } from "@material-ui/core"
 import { getOctokit, getAuthenticatedOctokit } from "../../github"
-import { useCollection } from "react-firebase-hooks/firestore"
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import { makeStyles } from "@material-ui/core/styles"
 import { red } from "@material-ui/core/colors"
 
@@ -59,7 +59,14 @@ const Projects = () => {
   const [branch, setBranch] = React.useState("")
   const [user] = useAuthState(firebase.auth())
   const db = firebase.firestore()
-  
+  const [user_projects, projects_loading, projects_error] = useCollectionData(
+    firebase
+      .firestore()
+      .collection("projects")
+      .where("uid", "==", user.uid),
+    {}
+  );
+
   const handleClickOpen = () => {
     setOpen(true)
   }
@@ -130,8 +137,19 @@ const Projects = () => {
   }
 
   useEffect(() => {
+    if (!projects_loading && !projects_error)
+      updateStoreUserProjects(user_projects);
+  }, [user_projects, projects_loading, projects_error]);
+
+  const updateStoreUserProjects = (user_projects) => {
+    console.log(`updateStoreUserProjects ${JSON.stringify(user_projects)}`);
+    //dispatch(projectsActions.addProjects(user_projects));
+  }
+
+  useEffect(() => {
     if (accessToken) getUserGithubStatus()
   }, [accessToken])
+
   const renderRepoSelect = (repos) => {
     return repos.map((repo, i) => {
       return <MenuItem key={i} id={i} value={repo}>{repo}</MenuItem>
