@@ -219,7 +219,7 @@ const Projects = () => {
       const branch = project.branch
       const repo = project.repo
       return (
-        <div style={{ width: '400px', display: 'flex', flexWrap: 'wrap', margin: '10px' }}>
+        <div key={repo + branch + "_div"} style={{ width: '400px', display: 'flex', flexWrap: 'wrap', margin: '10px' }}>
           <Paper variant="outlined" elevation={3} style={{ width: '400px', height: '100px', alienItems: 'flex-start', display: 'flex', flexDirection: 'column' }}>
             <Typography align='left' key={repo + branch + "_repo"} component={'span'}>Repo: {repo}</Typography>
             <Typography align='left' key={repo + branch + "_branch"} component={'span'}>Branch: {branch}</Typography>
@@ -230,7 +230,7 @@ const Projects = () => {
   }
 
   return (
-    <div style={{justifyContent: 'center', alignItems: 'center' }}>
+    <div style={{height:'100%', width:'100%', flex:5}}>
       <Button style={{ color: 'white', backgroundColor: "#AAA" }} onClick={handleClickOpen}>Add Repo</Button>
       <Dialog
         disableBackdropClick

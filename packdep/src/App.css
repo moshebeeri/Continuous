@@ -1,4 +1,12 @@
 .App {
+  text-align: center;
+  background-color: #0f1e3d;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.App2 {
   padding-top: 5%;
   text-align: center;
   background-color: #282c34;

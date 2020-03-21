@@ -30,11 +30,9 @@ const App = () => {
   return (
     <div className="App">
       <BrowserRouter>
-        <TopBar />
-        <div style={{width:'100%', display:'flex', flexDirection:'column'}}>
+          <TopBar style={{width:'100%', flex:1}}/>
           <Route path='/' exact component={Projects} />
           <Route path='/status' exact component={ProjectStatus} />
-        </div>
       </BrowserRouter>
     </div>
   )
