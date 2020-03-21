@@ -63,7 +63,7 @@ const Projects = () => {
     firebase
       .firestore()
       .collection("projects")
-      .where("uid", "==", user.uid),
+      .where("uid", "==", user? user.uid: 'none'),
     {}
   );
 

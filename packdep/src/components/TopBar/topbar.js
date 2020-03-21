@@ -1,13 +1,14 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { AppBar, Toolbar, Typography, IconButton, Button}  from '@material-ui/core'
+import { AppBar, Toolbar, Typography, IconButton}  from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import firebase from 'firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from "react-redux"
-
 import userActions from '../../redux/actions/userActions'
+
+const logo10 = require('../../logo.svg')
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -109,14 +110,9 @@ const TopBar = () => {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
-          {
-            user? 
-             <Typography component={'span'}  variant="h5" style={{textTransform: "capitalize"}}>
-              Hello {user.displayName} 
-            </Typography> : null
-          }
-          <Typography component={'span'}  variant="h6" className={classes.title}>
-            PACKDEP - continuous dependency {parseInt(projectsCount)} projects
+          <img style={{height: '50px'}} src={logo10} alt='Pack Dep Logo'/>
+          <Typography component={'span'}  variant="subtitle2" className={classes.title}>
+            PACKDEP - Continuous Package Dependency {parseInt(projectsCount)}
           </Typography>
           {user?
           <Typography component={'span'} className={classes.login}>
@@ -125,6 +121,11 @@ const TopBar = () => {
               <GitHubIcon/>
             </IconButton>
            <Typography component={'span'} className={classes.loginText}>Logout GitHub</Typography>
+            
+             <Typography component={'span'}  variant="body2" style={{textTransform: "capitalize"}}>
+              {user.displayName} 
+            </Typography>
+          
           </Typography>
           : 
           <Typography component={'span'} className={classes.login}>
