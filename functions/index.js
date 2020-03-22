@@ -33,7 +33,7 @@ exports.updateProjectStatusChange = functions.firestore
       .where('projectId', '==', status.projectId).get().then(snapshot => {
         if (!snapshot.empty) {
           const project = querySnapshot.docs[0];
-          project, update({ status: statusId });
+          project.update({ status: statusId });
         }
       })
   });
