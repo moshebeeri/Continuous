@@ -59,13 +59,6 @@ const Projects = () => {
   const [branch, setBranch] = React.useState("")
   const [user] = useAuthState(firebase.auth())
   const db = firebase.firestore()
-  const [user_projects, projects_loading, projects_error] = useCollectionData(
-    firebase
-      .firestore()
-      .collection("projects")
-      .where("uid", "==", user? user.uid: 'none'),
-    {}
-  );
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -96,6 +89,7 @@ const Projects = () => {
     db.collection('projects').add({ uid: user.uid, repo, branch, status: '' })
       .then(function (docRef) {
         console.log(`Project ${JSON.stringify(projectToAdd)} added ID: ${docRef.id}`)
+        projectToAdd.projectId = docRef.id
         dispatch(projectsActions.addProject(projectToAdd))
       })
       .catch(function (error) {
@@ -137,17 +131,27 @@ const Projects = () => {
   }
 
   useEffect(() => {
-    if (!projects_loading && !projects_error)
-      updateStoreUserProjects(user_projects);
-  }, [user_projects, projects_loading, projects_error]);
+    if (user)
+      updateStoreUserProjects(user);
+  }, [user]);
 
   const updateStoreUserProjects = (user_projects) => {
     console.log(`updateStoreUserProjects ${JSON.stringify(user_projects)}`);
-    //dispatch(projectsActions.addProjects(user_projects));
+    firebase
+      .firestore()
+      .collection('projects')
+      .where('uid', '==', user.uid).get().then(snapshot => {
+        snapshot.docs.forEach(doc => {
+          const project = {...doc.data(), projectId: doc.id}
+          console.log(JSON.stringify(project))
+          dispatch(projectsActions.addProject(project))
+        });
+      })
   }
 
   useEffect(() => {
-    if (accessToken) getUserGithubStatus()
+    if (accessToken) 
+    getUserGithubStatus()
   }, [accessToken])
 
   const renderRepoSelect = (repos) => {
