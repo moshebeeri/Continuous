@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 
 const ProjectBrif = (props) => {
   const project = props.project
-  const repo = project
+  const repo = project.repo
   const branch = project.branch
   const projectId = project.projectId
 
