@@ -20,6 +20,7 @@ import { getOctokit, getAuthenticatedOctokit } from "../../github"
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { makeStyles } from "@material-ui/core/styles"
 import { red } from "@material-ui/core/colors"
+import ProjectBrif from "./projectBrif"
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -205,31 +206,18 @@ const Projects = () => {
   }
 
   const renderAddedProjects = () => {
-    const projects_TO_TEST = [
-      { repo: "repo1", branch: 'branch1' },
-      { repo: "repo2", branch: 'branch2' },
-      { repo: "repo3", branch: 'branch3' },
-      { repo: "repo4", branch: 'branch4' },
-      { repo: "repo5", branch: 'branch4' },
-      { repo: "repo6", branch: 'branch4' },
-      { repo: "repo7", branch: 'branch4' },
-      { repo: "repo8", branch: 'branch4' },
-      { repo: "repo19", branch: 'branch4' },
-      { repo: "repo39", branch: 'branch4' },
-      { repo: "repo49", branch: 'branch4' },
-      { repo: "repo59", branch: 'branch4' },
-    ]
     return projects.map(project => {
-      const branch = project.branch
-      const repo = project.repo
-      return (
-        <div key={repo + branch + "_div"} style={{ width: '400px', display: 'flex', flexWrap: 'wrap', margin: '10px' }}>
-          <Paper variant="outlined" elevation={3} style={{ width: '400px', height: '100px', alienItems: 'flex-start', display: 'flex', flexDirection: 'column' }}>
-            <Typography align='left' key={repo + branch + "_repo"} component={'span'}>Repo: {repo}</Typography>
-            <Typography align='left' key={repo + branch + "_branch"} component={'span'}>Branch: {branch}</Typography>
-          </Paper>
-        </div>
-      )
+      return (<ProjectBrif project={project} />)
+      // const branch = project.branch
+      // const repo = project.repo
+      // return (
+      //   <div key={repo + branch + "_div"} style={{ width: '400px', display: 'flex', flexWrap: 'wrap', margin: '10px' }}>
+      //     <Paper variant="outlined" elevation={3} style={{ width: '400px', height: '100px', alienItems: 'flex-start', display: 'flex', flexDirection: 'column' }}>
+      //       <Typography align='left' key={repo + branch + "_repo"} component={'span'}>Repo: {repo}</Typography>
+      //       <Typography align='left' key={repo + branch + "_branch"} component={'span'}>Branch: {branch}</Typography>
+      //     </Paper>
+      //   </div>
+      // )
     })
   }
 
