@@ -1,2 +1,2 @@
-# ContinuousDependency
+# Continuous
 Continuous Dependency Mangemet
